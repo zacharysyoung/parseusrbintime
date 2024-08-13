@@ -2,7 +2,7 @@
 
 Parse the output of '/usr/bin/time -l'; includes a simple command to output a parsed record as CSV (with a header).
 
-To install, clone/download the repo and build and install [parseusrbintime/main.go] with `go install`.
+To install, clone/download the repo and build and install [parseusrbintime/main.go](parseusrbintime/main.go) with `go install`.
 
 Time a command (it's output must be redirected away from the command):
 
