@@ -38,19 +38,6 @@ func New(text string) Record {
 	}
 }
 
-// dtoa returns a normalized string of d in milliseconds.
-func dtoa(d time.Duration) string { return strconv.Itoa(int(d.Milliseconds())) }
-func itoa(i int) string           { return strconv.Itoa(i) }
-
-// Strings returns a slice of strings for all values of the record.
-func (r Record) Strings() []string {
-	return []string{
-		dtoa(r.Real), dtoa(r.User), dtoa(r.Sys),
-
-		itoa(r.Memory),
-	}
-}
-
 // atod converts a seconds value with a decimal to a time.Duration.
 func atod(s string) time.Duration { d, _ := time.ParseDuration(s + "s"); return d }
 func atoi(s string) int           { i, _ := strconv.Atoi(s); return i }
