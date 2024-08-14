@@ -4,11 +4,12 @@ import (
 	"reflect"
 	"strings"
 	"testing"
+	"time"
 )
 
 func TestNew(t *testing.T) {
 	text := `
-        1.23 real         4.56 user         7.89 sys
+        1.01 real         0.99 user         0.02 sys
                    1  maximum resident set size
                    2  average shared memory size
                    3  average unshared data size
@@ -28,7 +29,7 @@ func TestNew(t *testing.T) {
                   17  peak memory footprint
 `
 	want := Record{
-		Real: 1.23, User: 4.56, Sys: 7.89,
+		Real: 1010 * time.Millisecond, User: 990 * time.Millisecond, Sys: 20 * time.Millisecond,
 
 		Memory: 17,
 	}

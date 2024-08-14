@@ -15,7 +15,7 @@ func main() {
 	rec := record.New(buf.String())
 
 	writer := csv.NewWriter(os.Stdout)
-	writer.Write([]string{"Real(s)", "User(s)", "Sys(s)", "Memory(B)"})
+	writer.Write([]string{"Real(ms)", "User(ms)", "Sys(ms)", "Memory(B)"})
 	writer.Write(rec.Strings())
 	writer.Flush()
 }

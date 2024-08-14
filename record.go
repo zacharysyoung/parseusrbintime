@@ -3,12 +3,13 @@ package parseusrbintime
 import (
 	"strconv"
 	"strings"
+	"time"
 )
 
 // Record represents the real, user, sys timing, and the peak
 // memory footprint values from the output of `/usr/bin/time -l ...`.
 type Record struct {
-	Real, User, Sys float64
+	Real, User, Sys time.Duration
 
 	Memory int // peak memory footprint
 }
@@ -29,28 +30,30 @@ func New(text string) Record {
 	fields := strings.Fields(lines[0])
 
 	return Record{
-		Real: atof(fields[0]),
-		User: atof(fields[2]),
-		Sys:  atof(fields[4]),
+		Real: atod(fields[0]),
+		User: atod(fields[2]),
+		Sys:  atod(fields[4]),
 
 		Memory: linetoi(lines[17]),
 	}
 }
 
-func ftoa(f float64) string { return strconv.FormatFloat(f, 'f', -1, 64) }
-func itoa(i int) string     { return strconv.Itoa(i) }
+// dtoa returns a normalized string of d in milliseconds.
+func dtoa(d time.Duration) string { return strconv.Itoa(int(d.Milliseconds())) }
+func itoa(i int) string           { return strconv.Itoa(i) }
 
 // Strings returns a slice of strings for all values of the record.
 func (r Record) Strings() []string {
 	return []string{
-		ftoa(r.Real), ftoa(r.User), ftoa(r.Sys),
+		dtoa(r.Real), dtoa(r.User), dtoa(r.Sys),
 
 		itoa(r.Memory),
 	}
 }
 
-func atof(s string) (f float64) { f, _ = strconv.ParseFloat(s, 64); return }
-func atoi(s string) (i int)     { i, _ = strconv.Atoi(s); return }
+// atod converts a seconds value with a decimal to a time.Duration.
+func atod(s string) time.Duration { d, _ := time.ParseDuration(s + "s"); return d }
+func atoi(s string) int           { i, _ := strconv.Atoi(s); return i }
 
 // linetoi returns the int component of a line like,
 // "   123  peak memory footprint".
